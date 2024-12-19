@@ -25,7 +25,6 @@ def flush_cache():
 def benchmark_sequential_write(file_name, buffer_size):
     data = generate_random_data(buffer_size)
     start_time = time.perf_counter()
-    total_bytes_written = 0
     times = []
     throughputs = []
     
