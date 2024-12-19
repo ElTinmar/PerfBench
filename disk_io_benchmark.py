@@ -35,7 +35,7 @@ def benchmark_sequential_write(file_name, buffer_size):
             elapsed_time = time.perf_counter() - before_time
             
             throughput = buffer_size / elapsed_time / (1024 * 1024)  # MB/s
-            times.append(elapsed_time)
+            times.append(times[-1] + elapsed_time)
             throughputs.append(throughput)
     
     print(f"Sequential Write (Final) - Final Throughput: {throughput:.2f} MB/s")
@@ -56,7 +56,7 @@ def benchmark_sequential_read(file_name, buffer_size):
             elapsed_time = time.perf_counter() - before_time
             
             throughput = buffer_size / elapsed_time / (1024 * 1024)  # MB/s
-            times.append(elapsed_time)
+            times.append(times[-1] + elapsed_time)
             throughputs.append(throughput)
     
     print(f"Sequential Read (Final) - Final Throughput: {throughput:.2f} MB/s")
@@ -81,7 +81,7 @@ def benchmark_random_write(file_name, file_size, buffer_size):
             elapsed_time = time.perf_counter() - before_time
                         
             throughput = buffer_size / elapsed_time / (1024 * 1024)  # MB/s
-            times.append(elapsed_time)
+            times.append(times[-1] + elapsed_time)
             throughputs.append(throughput)
     
     print(f"Random Write (Final) - Final Throughput: {throughput:.2f} MB/s")
@@ -105,7 +105,7 @@ def benchmark_random_read(file_name, file_size, buffer_size):
             elapsed_time = time.perf_counter() - before_time
             
             throughput = buffer_size / elapsed_time / (1024 * 1024)  # MB/s
-            times.append(elapsed_time)
+            times.append(times[-1] + elapsed_time)
             throughputs.append(throughput)
 
     print(f"Random Read (Final) - Final Throughput: {throughput:.2f} MB/s")
