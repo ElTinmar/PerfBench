@@ -93,7 +93,7 @@ def display_table(block_sizes, write_throughputs, read_throughputs):
     for i, block_size in enumerate(block_sizes):
         print(f"{block_size:<15}{np.mean(write_throughputs[i]):<10.2f}\u00B1{np.std(write_throughputs[i]):<15.2f}{np.mean(read_throughputs[i]):<10.2f}\u00B1{np.std(read_throughputs[i]):<15.2f}")
 
-def run_benchmarks():
+def main():
     
     password = getpass.getpass("Enter your sudo password: ")
 
@@ -133,4 +133,4 @@ def run_benchmarks():
     print("Benchmark complete and file cleaned up.")
 
 if __name__ == "__main__":
-    run_benchmarks()
+    main()
