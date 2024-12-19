@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 FILE_NAME = "disk_benchmark_file.txt"
 
 # Time duration for each benchmark run (in seconds)
-BENCHMARK_DURATION = 60  # 1 minute
+BENCHMARK_DURATION = 10  # 1 minute
 
 # Generate a random string for writing
 def generate_random_data(size):
@@ -40,9 +40,7 @@ def benchmark_sequential_write(file_name, buffer_size):
             times.append(elapsed_time)
             throughputs.append(throughput)
     
-    end_time = time.perf_counter()
-    total_time = end_time - start_time
-    final_throughput = total_bytes_written / total_time / (1024 * 1024)  # MB/s
+    print(f"Sequential Write (Final) - Final Throughput: {throughput:.2f} MB/s")
     
     # Return throughput over time
     return times, throughputs
@@ -65,9 +63,7 @@ def benchmark_sequential_read(file_name, buffer_size):
             times.append(elapsed_time)
             throughputs.append(throughput)
     
-    end_time = time.perf_counter()
-    total_time = end_time - start_time
-    final_throughput = total_bytes_read / total_time / (1024 * 1024)  # MB/s
+    print(f"Sequential Read (Final) - Final Throughput: {throughput:.2f} MB/s")
     
     # Return throughput over time
     return times, throughputs
@@ -93,9 +89,7 @@ def benchmark_random_write(file_name, file_size, buffer_size):
             times.append(elapsed_time)
             throughputs.append(throughput)
     
-    end_time = time.perf_counter()
-    total_time = end_time - start_time
-    final_throughput = total_bytes_written / total_time / (1024 * 1024)  # MB/s
+    print(f"Random Write (Final) - Final Throughput: {throughput:.2f} MB/s")
     
     # Return throughput over time
     return times, throughputs
@@ -119,10 +113,8 @@ def benchmark_random_read(file_name, file_size, buffer_size):
             throughput = buffer_size / elapsed_time / (1024 * 1024)  # MB/s
             times.append(elapsed_time)
             throughputs.append(throughput)
-    
-    end_time = time.perf_counter()
-    total_time = end_time - start_time
-    final_throughput = total_bytes_read / total_time / (1024 * 1024)  # MB/s
+
+    print(f"Random Read (Final) - Final Throughput: {throughput:.2f} MB/s")
     
     # Return throughput over time
     return times, throughputs
