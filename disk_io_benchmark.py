@@ -25,8 +25,8 @@ def flush_cache():
 def benchmark_sequential_write(file_name, buffer_size):
     data = generate_random_data(buffer_size)
     start_time = time.perf_counter()
-    times = []
-    throughputs = []
+    times = [0]
+    throughputs = [0]
     
     with open(file_name, 'wb') as f:
         while time.perf_counter() - start_time < BENCHMARK_DURATION:
@@ -46,8 +46,8 @@ def benchmark_sequential_write(file_name, buffer_size):
 # Sequential read benchmark (run for 1 minute and report throughput)
 def benchmark_sequential_read(file_name, buffer_size):
     start_time = time.perf_counter()
-    times = []
-    throughputs = []
+    times = [0]
+    throughputs = [0]
     
     with open(file_name, 'rb') as f:
         while time.perf_counter() - start_time < BENCHMARK_DURATION:
@@ -68,8 +68,8 @@ def benchmark_sequential_read(file_name, buffer_size):
 def benchmark_random_write(file_name, file_size, buffer_size):
     data = generate_random_data(buffer_size)
     start_time = time.perf_counter()
-    times = []
-    throughputs = []
+    times = [0]
+    throughputs = [0]
     
     with open(file_name, 'r+b') as f:
         while time.perf_counter() - start_time < BENCHMARK_DURATION:
@@ -92,8 +92,8 @@ def benchmark_random_write(file_name, file_size, buffer_size):
 # Random read benchmark (run for 1 minute and report throughput)
 def benchmark_random_read(file_name, file_size, buffer_size):
     start_time = time.perf_counter()
-    times = []
-    throughputs = []
+    times = [0]
+    throughputs = [0]
     
     with open(file_name, 'rb') as f:
         while time.perf_counter() - start_time < BENCHMARK_DURATION:
