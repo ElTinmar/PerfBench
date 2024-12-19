@@ -79,12 +79,14 @@ def benchmark_random_write(file_name, file_size, buffer_size):
     with open(file_name, 'r+b') as f:
         while time.perf_counter() - start_time < BENCHMARK_DURATION:
             position = random.randint(0, file_size - buffer_size)
+            before_time = time.perf_counter()
             f.seek(position)
             f.write(data.encode('utf-8'))  # Write buffer at random position
+            elapsed_time = time.perf_counter() - before_time
             total_bytes_written += buffer_size
             
             # Record throughput every second
-            elapsed_time = time.perf_counter() - start_time
+            
             throughput = buffer_size / elapsed_time / (1024 * 1024)  # MB/s
             times.append(elapsed_time)
             throughputs.append(throughput)
