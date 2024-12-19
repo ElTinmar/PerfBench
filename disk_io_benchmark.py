@@ -36,7 +36,7 @@ def benchmark_sequential_write(file_name, buffer_size):
             
             # Record throughput every second
             elapsed_time = time.perf_counter() - start_time
-            throughput = total_bytes_written / elapsed_time / (1024 * 1024)  # MB/s
+            throughput = buffer_size / elapsed_time / (1024 * 1024)  # MB/s
             times.append(elapsed_time)
             throughputs.append(throughput)
     
@@ -44,7 +44,7 @@ def benchmark_sequential_write(file_name, buffer_size):
     total_time = end_time - start_time
     final_throughput = total_bytes_written / total_time / (1024 * 1024)  # MB/s
     
-    # Plot throughput over time
+    # Return throughput over time
     return times, throughputs
 
 # Sequential read benchmark (run for 1 minute and report throughput)
@@ -61,7 +61,7 @@ def benchmark_sequential_read(file_name, buffer_size):
             
             # Record throughput every second
             elapsed_time = time.perf_counter() - start_time
-            throughput = total_bytes_read / elapsed_time / (1024 * 1024)  # MB/s
+            throughput = buffer_size / elapsed_time / (1024 * 1024)  # MB/s
             times.append(elapsed_time)
             throughputs.append(throughput)
     
@@ -69,7 +69,7 @@ def benchmark_sequential_read(file_name, buffer_size):
     total_time = end_time - start_time
     final_throughput = total_bytes_read / total_time / (1024 * 1024)  # MB/s
     
-    # Plot throughput over time
+    # Return throughput over time
     return times, throughputs
 
 # Random write benchmark (run for 1 minute and report throughput)
@@ -89,7 +89,7 @@ def benchmark_random_write(file_name, file_size, buffer_size):
             
             # Record throughput every second
             elapsed_time = time.perf_counter() - start_time
-            throughput = total_bytes_written / elapsed_time / (1024 * 1024)  # MB/s
+            throughput = buffer_size / elapsed_time / (1024 * 1024)  # MB/s
             times.append(elapsed_time)
             throughputs.append(throughput)
     
@@ -97,7 +97,7 @@ def benchmark_random_write(file_name, file_size, buffer_size):
     total_time = end_time - start_time
     final_throughput = total_bytes_written / total_time / (1024 * 1024)  # MB/s
     
-    # Plot throughput over time
+    # Return throughput over time
     return times, throughputs
 
 # Random read benchmark (run for 1 minute and report throughput)
@@ -116,7 +116,7 @@ def benchmark_random_read(file_name, file_size, buffer_size):
             
             # Record throughput every second
             elapsed_time = time.perf_counter() - start_time
-            throughput = total_bytes_read / elapsed_time / (1024 * 1024)  # MB/s
+            throughput = buffer_size / elapsed_time / (1024 * 1024)  # MB/s
             times.append(elapsed_time)
             throughputs.append(throughput)
     
@@ -124,34 +124,41 @@ def benchmark_random_read(file_name, file_size, buffer_size):
     total_time = end_time - start_time
     final_throughput = total_bytes_read / total_time / (1024 * 1024)  # MB/s
     
-    # Plot throughput over time
+    # Return throughput over time
     return times, throughputs
 
 # Function to run all benchmarks with increasing buffer sizes and save plot as PNG
 def run_disk_io_benchmarks(file_size, buffer_sizes):
     print("Running disk I/O benchmark...")
 
-    plt.figure(figsize=(10, 6))
+    # Create a figure with multiple subplots (one for each benchmark type)
+    fig, axes = plt.subplots(len(buffer_sizes), 4, figsize=(15, 12), sharex=True, sharey=True)
     
-    for buffer_size in buffer_sizes:
+    for i, buffer_size in enumerate(buffer_sizes):
         print(f"Running benchmarks for buffer size: {buffer_size} bytes")
         
         # Sequential write test
         seq_write_times, seq_write_throughputs = benchmark_sequential_write(FILE_NAME, buffer_size)
-        plt.plot(seq_write_times, seq_write_throughputs, label=f'Seq Write {buffer_size}B')
+        axes[i, 0].plot(seq_write_times, seq_write_throughputs, label=f'Seq Write {buffer_size}B')
+        axes[i, 0].set_title(f'Seq Write - {buffer_size}B')
+        flush_cache()
 
         # Sequential read test
         seq_read_times, seq_read_throughputs = benchmark_sequential_read(FILE_NAME, buffer_size)
-        plt.plot(seq_read_times, seq_read_throughputs, label=f'Seq Read {buffer_size}B')
-
+        axes[i, 1].plot(seq_read_times, seq_read_throughputs, label=f'Seq Read {buffer_size}B')
+        axes[i, 1].set_title(f'Seq Read - {buffer_size}B')
+        flush_cache()
+        
         # Random write test
         rand_write_times, rand_write_throughputs = benchmark_random_write(FILE_NAME, file_size, buffer_size)
-        plt.plot(rand_write_times, rand_write_throughputs, label=f'Rand Write {buffer_size}B')
+        axes[i, 2].plot(rand_write_times, rand_write_throughputs, label=f'Rand Write {buffer_size}B')
+        axes[i, 2].set_title(f'Rand Write - {buffer_size}B')
+        flush_cache()
 
         # Random read test
         rand_read_times, rand_read_throughputs = benchmark_random_read(FILE_NAME, file_size, buffer_size)
-        plt.plot(rand_read_times, rand_read_throughputs, label=f'Rand Read {buffer_size}B')
-
+        axes[i, 3].plot(rand_read_times, rand_read_throughputs, label=f'Rand Read {buffer_size}B')
+        axes[i, 3].set_title(f'Rand Read - {buffer_size}B')
         flush_cache()
 
     # Clean up the file after benchmarking
@@ -159,12 +166,15 @@ def run_disk_io_benchmarks(file_size, buffer_sizes):
         os.remove(FILE_NAME)
     
     print("Benchmark complete. Cleaning up and saving plot.")
+    # Set common axis labels
+    for ax in axes.flat:
+        ax.set(xlabel='Time (s)', ylabel='Throughput (MB/s)')
+        ax.grid(True)
+    
+    # Adjust layout
+    plt.tight_layout()
+
     # Save plot as PNG
-    plt.xlabel('Time (s)')
-    plt.ylabel('Throughput (MB/s)')
-    plt.title('Disk I/O Throughput over Time for Different Buffer Sizes')
-    plt.legend(loc='upper left')
-    plt.grid(True)
     plt.savefig('disk_io_benchmark.png')
     plt.close()
     print("Plot saved as 'disk_io_benchmark.png'.")
