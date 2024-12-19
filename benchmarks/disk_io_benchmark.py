@@ -130,7 +130,7 @@ def main():
     if os.path.exists(FILE_NAME):
         os.remove(FILE_NAME)
 
-    print("Benchmark complete and file cleaned up.")
+    print("Benchmark complete and file cleaned up.\n")
 
 if __name__ == "__main__":
     main()
