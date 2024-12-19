@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 FILE_NAME = "disk_benchmark_file.txt"
 
 # Time duration for each benchmark run (in seconds)
-BENCHMARK_DURATION = 10  # 1 minute
+BENCHMARK_DURATION = 5  # 1 minute
 
 # Generate a random string for writing
 def generate_random_data(size):
