@@ -30,6 +30,7 @@ def single_threaded_memory_bandwidth(
     bandwidth = size_in_bytes / avg_time / (1024**3)  # Convert to GB/s
     
     print(f"--- Single-threaded RAM-to-RAM Copy---")
+    print(f"Array size       : {array_shape[0]}×{array_shape[1]} (≈{size_in_bytes/1024**2:.1f} MiB)")
     print(f"Average Copy Time: {avg_time:.6f} seconds")
     print(f"Effective Bandwidth: {bandwidth:.2f} GB/s")
 
@@ -47,7 +48,7 @@ def multithreaded_memory_bandwidth(
     Returns (avg_time_s, bandwidth_GBps).
     """
     # Total bytes to copy per iteration
-    total_bytes = np.prod(array_shape) * 4  # float32 → 4 bytes
+    size_in_bytes = np.prod(array_shape) * 4  # float32 → 4 bytes
     # Create source and destination
     src = np.random.rand(*array_shape).astype(np.float32)
     dst = np.empty_like(src)
@@ -91,14 +92,14 @@ def multithreaded_memory_bandwidth(
         times.append(t1 - t0)
 
     avg_time = sum(times) / len(times)
-    bandwidth = total_bytes / avg_time / (1024 ** 3)  # GB/s
+    bandwidth = size_in_bytes / avg_time / (1024 ** 3)  # GB/s
 
     print(f"--- Multithreaded ({num_threads} threads) RAM-to-RAM Copy ---")
-    print(f"Array size       : {array_shape[0]}×{array_shape[1]} (≈{total_bytes/1024**2:.1f} MiB)")
+    print(f"Array size       : {array_shape[0]}×{array_shape[1]} (≈{size_in_bytes/1024**2:.1f} MiB)")
     print(f"Average Copy Time: {avg_time:.6f} s")
     print(f"Effective Bandwidth: {bandwidth:.2f} GB/s")
     return avg_time, bandwidth
 
 if __name__ == "__main__":
     single_threaded_memory_bandwidth()
-    multithreaded_memory_bandwidth()
+    multithreaded_memory_bandwidth(num_threads=8)
