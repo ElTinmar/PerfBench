@@ -1,4 +1,4 @@
-from perf_bench import cpu_linear_algebra, memory_bandwidth, disk_io_benchmark
+from perf_bench import cpu_linear_algebra, single_threaded_memory_bandwidth, disk_io_benchmark
 
 if __name__ == "__main__":
 
@@ -12,4 +12,4 @@ if __name__ == "__main__":
 
     print('Running memory benchmark')
     print(60*"=" + "\n")
-    memory_bandwidth()
+    single_threaded_memory_bandwidth()

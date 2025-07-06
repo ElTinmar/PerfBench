@@ -3,7 +3,7 @@ import time
 from typing import Tuple
 
 # Function to measure RAM-to-RAM memory copy bandwidth
-def memory_bandwidth(
+def single_threaded_memory_bandwidth(
         array_shape: Tuple = (4096, 4096), # make sure this is bigger than L3 cache
         num_iterations: int = 1000,
         warmup_iterations: int = 100
@@ -34,4 +34,4 @@ def memory_bandwidth(
     return avg_time, bandwidth
 
 if __name__ == "__main__":
-    memory_bandwidth()
+    single_threaded_memory_bandwidth()
