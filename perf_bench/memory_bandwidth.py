@@ -28,7 +28,7 @@ def memory_bandwidth(
     avg_time = sum(times) / len(times)
     bandwidth = size_in_bytes / avg_time / (1024**3)  # Convert to GB/s
     
-    print(f"--- RAM-to-RAM Copy ---")
+    print(f"--- Single-threaded RAM-to-RAM Copy---")
     print(f"Average Copy Time: {avg_time:.6f} seconds")
     print(f"Effective Bandwidth: {bandwidth:.2f} GB/s")
     return avg_time, bandwidth
