@@ -1,4 +1,4 @@
-name: PerfBench
+name: perf_bench
 channels:
 - conda-forge
 dependencies:

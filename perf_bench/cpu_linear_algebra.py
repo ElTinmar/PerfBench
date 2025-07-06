@@ -82,7 +82,7 @@ def benchmark_linear_system(matrix_size, num_iterations=10, warmup_iterations=3)
     return avg_time, gflops
 
 # Main function to run all benchmarks
-def main():
+def cpu_linear_algebra():
     matrix_size = 2048  # Example matrix size (1024x1024)
     num_iterations = 100  # Number of timed iterations
     warmup_iterations = 10  # Number of warm-up iterations
@@ -93,4 +93,4 @@ def main():
     benchmark_linear_system(matrix_size, num_iterations, warmup_iterations)
 
 if __name__ == "__main__":
-    main()
+    cpu_linear_algebra()

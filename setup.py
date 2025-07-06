@@ -1,10 +1,10 @@
 from distutils.core import setup
 
 setup(
-    name='PerfBench',
+    name='perf_bench',
     author='Martin Privat',
-    version='0.0.1',
-    packages=['benchmarks'],
+    version='0.0.3',
+    packages=['perf_bench'],
     license='Creative Commons Attribution-Noncommercial-Share Alike license',
     description='share numpy arrays between processes',
     long_description=open('README.md').read(),
